@@ -12,13 +12,13 @@
         <div class="col-lg-6">
             <h2>Serviço de Paciente</h2>
             <p><strong>Funções: </strong>Vê as consultas, as pesquisam por paciente a marca consulta, que ficam esperando confirmação do serviço de médico para ser marcada (pendências)</p>
-            <strong>Rota para marcar a consulta: </strong>@Html.ActionLink("CLIQUE AQUI", "AgendarConsulta", "Consultas", new { id = "123" }, null)
+            <strong>Rota para marcar a consulta: </strong>@Html.ActionLink("CLIQUE AQUI", "AgendarConsulta", "Consultas")
         </div>
         <div class="col-lg-6">
             <h2>Serviço de Médico</h2>
             <p><strong>Funções: </strong>Vê, edita, deleta e pesquisa (por médico) as consultas. Também confirmam as consultas marcadas pelo paciente, que aguardam confirmação</p>
             <p>
-                <strong>Rota para ver as consultas pendentes de confirmação: </strong>@Html.ActionLink("CLIQUE AQUI", "ConsultasPendentes", "Consultas", new { id = "123" }, null)
+                <strong>Rota para ver as consultas pendentes de confirmação: </strong>@Html.ActionLink("CLIQUE AQUI", "ConsultasPendentes", "Consultas")
             </p>
         </div>
     </div>
