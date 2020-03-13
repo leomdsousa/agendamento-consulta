@@ -1,0 +1,53 @@
+﻿@model AlbertEinsteinTeste.Models.Consulta
+
+@{
+    ViewData["Title"] = "Confirmar Agendamento";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div>
+    <h4>Agendamento confirmado</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Sintoma)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Sintoma)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Diagnostico)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Diagnostico)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DataConsulta)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DataConsulta)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Medico)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Medico.Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Paciente)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Paciente.Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ConsultaSituacao)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ConsultaSituacao.Id)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="ConsultasPendentes">Voltar as pendências</a>
+</div>

@@ -1,0 +1,66 @@
+﻿@model IEnumerable<AlbertEinsteinTeste.Models.Consulta>
+
+@{
+    ViewData["Title"] = "Consultas Pendentes - Agendamento";
+}
+
+<h2 class="panel-title">@ViewData["Title"]</h2>
+
+<p>
+    <a asp-action="ConsultasPendentes">Voltar as pendências</a>
+</p>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr class="bg-dark text-light text-justify">
+            <th>
+                @Html.DisplayNameFor(model => model.Paciente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Medico)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sintoma)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Diagnostico)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataConsulta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConsultaSituacao)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="success">
+                <th>
+                    @Html.DisplayFor(modelItem => item.Paciente.Nome)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => item.Medico.Nome)
+                </th>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sintoma)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Diagnostico)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataConsulta)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ConsultaSituacao.DescricaoSituacao)
+                </td>
+                <td>
+                    <a asp-action="ConfirmarAgendamento" asp-route-id="@item.Id">Marcar</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Excluir</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

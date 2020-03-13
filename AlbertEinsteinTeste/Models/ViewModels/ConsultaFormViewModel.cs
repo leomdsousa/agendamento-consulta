@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace AlbertEinsteinTeste.Models.ViewModels
+{
+    public class ConsultaFormViewModel
+    {
+        [Key] 
+        public int ConsultaFormViewModelId { get; set; }
+        public Paciente Paciente { get; set; }
+        public Consulta Consulta { get; set; }
+        public Medico Medico { get; set; }
+        public ICollection<Medico> Medicos { get; set; }
+    }
+}

@@ -1,0 +1,83 @@
+﻿@model AlbertEinsteinTeste.Models.ViewModels.ConsultaFormViewModel
+
+@{
+    ViewData["Title"] = "Consulta";
+    ViewBag.ItemsSelect = new SelectList(Model.Medicos, "Id", "Especialidade", 0);
+
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<h4>Marcar</h4>
+<hr />
+<div class="row">
+    <div class="col-md-5">
+        <form asp-action="Create">
+
+            <div class="form-group">
+                <label asp-for="Paciente.Nome" class="control-label"></label>
+                <input asp-for="Paciente.Nome" class="form-control" />
+                <span asp-validation-for="Paciente.Nome" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Paciente.Sexo" class="control-label"></label>
+                <input asp-for="Paciente.Sexo" class="form-control" placeholder="M para homem e F para mulher" />
+                <span asp-validation-for="Paciente.Sexo" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Paciente.DataNascimento" class="control-label"></label>
+                <input asp-for="Paciente.DataNascimento" class="form-control" />
+                <span asp-validation-for="Paciente.DataNascimento" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Paciente.Cidade" class="control-label"></label>
+                <input asp-for="Paciente.Cidade" class="form-control" />
+                <span asp-validation-for="Paciente.Cidade" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Paciente.Estado" class="control-label"></label>
+                <input asp-for="Paciente.Estado" class="form-control" placeholder="Exemplo: SP" />
+                <span asp-validation-for="Paciente.Estado" class="text-danger"></span>
+            </div>
+</div>
+    <div class="col-md-5">
+        <div class="form-group">
+            <label asp-for="Consulta.Sintoma" class="control-label"></label>
+            <input asp-for="Consulta.Sintoma" class="form-control" />
+            <span asp-validation-for="Consulta.Sintoma" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Consulta.DataConsulta" class="control-label"></label>
+            <input asp-for="Consulta.DataConsulta" class="form-control" />
+            <span asp-validation-for="Consulta.DataConsulta" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Consulta.MedicoId" class="control-label"></label>
+            @Html.DropDownList("Medicos",
+                new SelectList(Model.Medicos, "Id", "Nome"),
+                "Selecione Médico",
+                new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-default btn-success" />
+        </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts
+    {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+
