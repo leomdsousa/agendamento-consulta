@@ -33,7 +33,7 @@ namespace AlbertEinsteinTeste.Models
         [DataType(DataType.Date)]
         public DateTime DataNascimento { get; set; }
         public string Especialidade { get; set; }
-        [DisplayFormat(DataFormatString = "0:f2")]
+        [DisplayFormat(DataFormatString = "{0:f2}")]
         public double Salario { get; set; }
         [Display(Name = "Férias")]
         public bool Ferias { get; set; }

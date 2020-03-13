@@ -6,19 +6,20 @@
 
     <div class="jumbotron">
         <h1>@ViewData["Title"] - Instruções</h1>
-        <p class="">Necessário antes de rodar a aplicação, abrir o projeto e executar os commandos da migration no console para criar o banco de dados e as tabelas. Segue os comandos abaixo: </p>
-        <p class="">Comando para criar migration: <strong>add-migration nomeDaMigration</strong>. Exemplo: add-migration primeiraMigration</p>
-        <p class="">Comando para criar bancos e tabelas: <strong>update-database</strong></p>
     </div>
 
     <div class="row">
         <div class="col-lg-6">
             <h2>Serviço de Paciente</h2>
             <p><strong>Funções: </strong>Vê as consultas, as pesquisam por paciente a marca consulta, que ficam esperando confirmação do serviço de médico para ser marcada (pendências)</p>
+            <strong>Rota para marcar a consulta: </strong>@Html.ActionLink("CLIQUE AQUI", "AgendarConsulta", "Consultas", new { id = "123" }, null)
         </div>
         <div class="col-lg-6">
             <h2>Serviço de Médico</h2>
-            <p><strong>Funções: </strong>Vê, edita, deleta e pesquisa (por médico) as consultas. Também confirmão as consultas marcadas pelo paciente, que aguardam confirmação do usuário</p>
+            <p><strong>Funções: </strong>Vê, edita, deleta e pesquisa (por médico) as consultas. Também confirmam as consultas marcadas pelo paciente, que aguardam confirmação</p>
+            <p>
+                <strong>Rota para ver as consultas pendentes de confirmação: </strong>@Html.ActionLink("CLIQUE AQUI", "ConsultasPendentes", "Consultas", new { id = "123" }, null)
+            </p>
         </div>
     </div>
 
