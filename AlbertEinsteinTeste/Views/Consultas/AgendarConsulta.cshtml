@@ -59,7 +59,7 @@
         <div class="form-group">
             <label asp-for="Consulta.MedicoId" class="control-label"></label>
             @Html.DropDownList("Medicos",
-                new SelectList(Model.Medicos, "Id", "Nome"),
+                new SelectList(Model.Medicos, "Id", "GetMedicoEspecialidade"),
                 "Selecione Médico",
                 new { @class = "form-control" })
         </div>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using AlbertEinsteinTeste.Models;
@@ -77,6 +78,9 @@ namespace AlbertEinsteinTeste.Controllers
                 return View(consultaFormViewModel);
             }
 
+            if(_consultaService.VerificaDuplicidadeDeConsultaPorMedicoeHorario(consulta))
+                return RedirectToAction(nameof(Erro), new { mensagem = "Já existe consulta marcada para a data e horário informados com o mesmo médico" });
+
             await _consultaService.AddConsultaAsync(consulta);
             return RedirectToAction(nameof(Index));
         }
@@ -113,6 +117,9 @@ namespace AlbertEinsteinTeste.Controllers
 
             agendamentoConsulta.Consulta.Paciente = await _pacienteService.ObterPacienteByNomeAsync(agendamentoConsulta.Paciente.Nome);
 
+            if (_consultaService.VerificaDuplicidadeDeConsultaPorMedicoeHorario(agendamentoConsulta.Consulta))
+                return RedirectToAction(nameof(Erro), new { mensagem = "Já existe consulta marcada para a data e horário informados com o mesmo médico" });
+
             await _consultaService.AddConsultaAsync(agendamentoConsulta.Consulta);
             return RedirectToAction(nameof(Index));
         }
@@ -121,13 +128,13 @@ namespace AlbertEinsteinTeste.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Erro), new { mensagem = "Id nulo" });
             }
 
             Consulta consulta = await _consultaService.ObterConsultaByIdAsync(id);
             if (consulta == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Erro), new { mensagem = "Consulta não encontrada" });
             }
 
             return View(consulta);
@@ -144,14 +151,14 @@ namespace AlbertEinsteinTeste.Controllers
             }
             catch (Exception)
             {
-                return BadRequest();
+                return RedirectToAction(nameof(Erro), new { mensagem = "Houve um erro durante processamento" });
             }
         }
 
         public async Task<IActionResult> Edit(int? id)
         {
             if (!id.HasValue)
-                return BadRequest();
+                return RedirectToAction(nameof(Erro), new { mensagem = "Id nulo" });
 
             Consulta consulta = await _consultaService.ObterConsultaByIdAsync(id);
             return View(consulta);
@@ -163,7 +170,7 @@ namespace AlbertEinsteinTeste.Controllers
         {
             if (consulta == null)
             {
-                return BadRequest();
+                return RedirectToAction(nameof(Erro), new { mensagem = "Consulta não encontrada" });
             }
 
             await _consultaService.EditarConsultaAsync(consulta);
@@ -179,15 +186,25 @@ namespace AlbertEinsteinTeste.Controllers
         public async Task<IActionResult> ConfirmarAgendamento(int? id)
         {
             if (!id.HasValue)
-                return NotFound();
+                return RedirectToAction(nameof(Erro), new { mensagem = "Id nulo" });
 
             Consulta consulta = await _consultaService.ObterConsultaByIdAsync(id.Value);
 
             if (consulta == null)
-                return NotFound();
+                return RedirectToAction(nameof(Erro), new { mensagem = "Consulta não encontrada" });
 
             await _consultaService.AddConsultaPendenteAsync(consulta);
             return RedirectToAction(nameof(ConsultasPendentes));
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Erro(string mensagem)
+        {
+            return View(new ErroViewModel
+            {
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+                , Mensagem = mensagem
+            });
         }
     }
 }

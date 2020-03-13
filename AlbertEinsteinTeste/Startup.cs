@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using AlbertEinsteinTeste.Data;
 using AlbertEinsteinTeste.Services;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 namespace AlbertEinsteinTeste
 {
@@ -39,8 +40,11 @@ namespace AlbertEinsteinTeste
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            //services.AddDbContext<AlbertEinsteinTesteContext>(options =>
+            //    options.UseSqlServer(Configuration.GetConnectionString("AlbertEinsteinTesteContext")));
+
             services.AddDbContext<AlbertEinsteinTesteContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("AlbertEinsteinTesteContext")));
+            options.UseMySql(Configuration.GetConnectionString("AlbertEinsteinTesteContext"), mySqlOptionsAction => mySqlOptionsAction.ServerVersion(new Version(), ServerType.MySql)));
 
             services.AddScoped<SeedingService>();
             services.AddScoped<ConsultaService>();

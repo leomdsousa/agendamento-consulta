@@ -57,8 +57,8 @@
                     @Html.DisplayFor(modelItem => item.ConsultaSituacao.DescricaoSituacao)
                 </td>
                 <td>
-                    <a asp-action="ConfirmarAgendamento" asp-route-id="@item.Id">Marcar</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Excluir</a>
+                    <a asp-action="ConfirmarAgendamento" asp-route-id="@item.Id" class="btn btn-default btn-success">Marcar</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-default btn-danger">Excluir</a>
                 </td>
             </tr>
         }

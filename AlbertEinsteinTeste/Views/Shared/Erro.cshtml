@@ -1,0 +1,17 @@
+﻿@model AlbertEinsteinTeste.Models.ErroViewModel
+@{
+    ViewData["Title"] = "Erro";
+}
+
+<h1 class="text-danger">@ViewData["Title"].</h1>
+
+@if (Model.ShowRequestId)
+{
+    <p>
+        <strong>ID: </strong> <code>@Model.RequestId</code>
+    </p>
+    <p>
+        <strong>Mensagem: </strong>
+        @Model.Mensagem
+    </p>
+}

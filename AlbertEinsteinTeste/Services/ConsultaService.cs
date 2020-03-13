@@ -5,6 +5,7 @@ using AlbertEinsteinTeste.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,21 +14,28 @@ namespace AlbertEinsteinTeste.Services
     public class ConsultaService
     {
         private readonly AlbertEinsteinTesteContext _context;
-        private readonly PacienteService _pacienteService;
-        public ConsultaService(AlbertEinsteinTesteContext context)
+        private readonly MedicoService _medicoService;
+
+        public ConsultaService(AlbertEinsteinTesteContext context, MedicoService medicoService)
         {
             _context = context;
+            _medicoService = medicoService;
         }
 
         public bool VerificaDuplicidadeDeConsultaPorMedicoeHorario(Consulta consulta)
         {
-            if(_context.Consulta.Any(x => x.Paciente == consulta.Paciente
-                                    && x.DataConsulta.Day == consulta.DataConsulta.Day))
+            bool existeConsultaNoHorario = false;
+
+            List<Consulta> consultasMedicoEscolhido = _context.Consulta.Include(x => x.Medico)
+                                        .Where(x => x.Medico.Id == consulta.Medico.Id).ToList();
+
+            if (consultasMedicoEscolhido.Any(x => (x.DataConsulta - consulta.DataConsulta).TotalMinutes == 0 ))
             {
-                return false;
+                existeConsultaNoHorario = true;
+                return existeConsultaNoHorario;
             }
 
-            return true;
+            return existeConsultaNoHorario;
         }
 
         public async Task<List<Consulta>> BuscarConsultasAsync()
@@ -90,11 +98,6 @@ namespace AlbertEinsteinTeste.Services
         {
             if (consulta == null)
                 return;
-
-            if(!VerificaDuplicidadeDeConsultaPorMedicoeHorario(consulta))
-            {
-                return;
-            }
 
             _context.Consulta.Add(consulta);
             await _context.SaveChangesAsync();

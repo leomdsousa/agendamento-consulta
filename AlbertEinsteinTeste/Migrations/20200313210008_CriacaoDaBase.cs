@@ -4,16 +4,29 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AlbertEinsteinTeste.Migrations
 {
-    public partial class PrimeiraMigration : Migration
+    public partial class CriacaoDaBase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "ConsultaSituacao",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    DescricaoSituacao = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ConsultaSituacao", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Medico",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Nome = table.Column<string>(nullable: true),
                     Sexo = table.Column<string>(nullable: true),
                     DataNascimento = table.Column<DateTime>(nullable: false),
@@ -33,7 +46,7 @@ namespace AlbertEinsteinTeste.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Nome = table.Column<string>(nullable: true),
                     Sexo = table.Column<string>(nullable: true),
                     DataNascimento = table.Column<DateTime>(nullable: false),
@@ -50,30 +63,41 @@ namespace AlbertEinsteinTeste.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Sintoma = table.Column<string>(nullable: true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Sintoma = table.Column<string>(nullable: false),
                     Diagnostico = table.Column<string>(nullable: true),
                     DataConsulta = table.Column<DateTime>(nullable: false),
-                    MedicoId = table.Column<int>(nullable: true),
-                    PacienteId = table.Column<int>(nullable: true),
-                    ConsultaEstado = table.Column<int>(nullable: false)
+                    MedicoId = table.Column<int>(nullable: false),
+                    PacienteId = table.Column<int>(nullable: false),
+                    ConsultaSituacaoId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Consulta", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Consulta_ConsultaSituacao_ConsultaSituacaoId",
+                        column: x => x.ConsultaSituacaoId,
+                        principalTable: "ConsultaSituacao",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Consulta_Medico_MedicoId",
                         column: x => x.MedicoId,
                         principalTable: "Medico",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Consulta_Paciente_PacienteId",
                         column: x => x.PacienteId,
                         principalTable: "Paciente",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Consulta_ConsultaSituacaoId",
+                table: "Consulta",
+                column: "ConsultaSituacaoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Consulta_MedicoId",
@@ -90,6 +114,9 @@ namespace AlbertEinsteinTeste.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Consulta");
+
+            migrationBuilder.DropTable(
+                name: "ConsultaSituacao");
 
             migrationBuilder.DropTable(
                 name: "Medico");

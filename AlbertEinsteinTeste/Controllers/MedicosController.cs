@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using AlbertEinsteinTeste.Models;
@@ -26,13 +27,13 @@ namespace AlbertEinsteinTeste.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Erro), new { mensagem = "Id nulo" });
             }
 
             Medico medico = await _medicoService.ObterMedicoByIdAsync(id.Value);
             if (medico == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Erro), new { mensagem = "Médico não encontrado" });
             }
 
             return View(medico);
@@ -49,7 +50,7 @@ namespace AlbertEinsteinTeste.Controllers
             }
             catch (Exception)
             {
-                return BadRequest();
+                return RedirectToAction(nameof(Erro), new { mensagem = "Erro durante o processamento" });
             }
         }
 
@@ -64,7 +65,7 @@ namespace AlbertEinsteinTeste.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return RedirectToAction(nameof(Erro), new { mensagem = "Erro durante processamento. Verifique os dados informados e tente novamente" });
             }
 
             await _medicoService.AdicionarMedicoAsync(consulta);
@@ -75,13 +76,13 @@ namespace AlbertEinsteinTeste.Controllers
         {
             if (id == null)
             {
-                return BadRequest();
+                return RedirectToAction(nameof(Erro), new { mensagem = "Id nulo" });
             }
 
             Medico medico = await _medicoService.ObterMedicoByIdAsync(id.Value);
             if (medico == null)
             {
-                return BadRequest();
+                return RedirectToAction(nameof(Erro), new { mensagem = "Médico não encontrado" });
             }
 
             return View(medico);
@@ -93,11 +94,22 @@ namespace AlbertEinsteinTeste.Controllers
         {
             if (medico == null)
             {
-                return BadRequest();
+                return RedirectToAction(nameof(Erro), new { mensagem = "Médico não encontrado" });
             }
 
             await _medicoService.EditarMedicoAsync(medico);
             return RedirectToAction(nameof(Index));
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Erro(string mensagem)
+        {
+            return View(new ErroViewModel
+            {
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+                ,
+                Mensagem = mensagem
+            });
         }
     }
 }

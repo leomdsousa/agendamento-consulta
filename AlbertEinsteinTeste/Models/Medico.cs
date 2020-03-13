@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -29,6 +30,7 @@ namespace AlbertEinsteinTeste.Models
         public string Sexo { get; set; }
         [Display(Name = "Data de Nascimento")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        [DataType(DataType.Date)]
         public DateTime DataNascimento { get; set; }
         public string Especialidade { get; set; }
         [DisplayFormat(DataFormatString = "0:f2")]
@@ -37,5 +39,11 @@ namespace AlbertEinsteinTeste.Models
         public bool Ferias { get; set; }
         public string Cidade { get; set; }
         public string Estado { get; set; }
+        [NotMapped]
+        private string MedicoEspecialidade { get; set; }
+        public string GetMedicoEspecialidade 
+        {
+            get { return Especialidade + " - " + Nome; }
+        }
     }
 }

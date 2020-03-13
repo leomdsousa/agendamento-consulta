@@ -16,7 +16,6 @@ C:\Users\leona\source\repos\AlbertEinsteinTeste\AlbertEinsteinTeste\obj\Debug\ne
 C:\Users\leona\source\repos\AlbertEinsteinTeste\AlbertEinsteinTeste\obj\Debug\netcoreapp2.1\Razor\Views\Consultas\Delete.g.cshtml.cs
 C:\Users\leona\source\repos\AlbertEinsteinTeste\AlbertEinsteinTeste\obj\Debug\netcoreapp2.1\Razor\Views\Consultas\Index.g.cshtml.cs
 C:\Users\leona\source\repos\AlbertEinsteinTeste\AlbertEinsteinTeste\obj\Debug\netcoreapp2.1\Razor\Views\Home\Index.g.cshtml.cs
-C:\Users\leona\source\repos\AlbertEinsteinTeste\AlbertEinsteinTeste\obj\Debug\netcoreapp2.1\Razor\Views\Shared\Error.g.cshtml.cs
 C:\Users\leona\source\repos\AlbertEinsteinTeste\AlbertEinsteinTeste\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_CookieConsentPartial.g.cshtml.cs
 C:\Users\leona\source\repos\AlbertEinsteinTeste\AlbertEinsteinTeste\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_Layout.g.cshtml.cs
 C:\Users\leona\source\repos\AlbertEinsteinTeste\AlbertEinsteinTeste\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_ValidationScriptsPartial.g.cshtml.cs
@@ -44,3 +43,5 @@ C:\Users\leona\source\repos\AlbertEinsteinTeste\AlbertEinsteinTeste\obj\Debug\ne
 C:\Users\leona\source\repos\AlbertEinsteinTeste\AlbertEinsteinTeste\obj\Debug\netcoreapp2.1\Razor\Views\Consultas\AgendarConsulta.g.cshtml.cs
 C:\Users\leona\source\repos\AlbertEinsteinTeste\AlbertEinsteinTeste\obj\Debug\netcoreapp2.1\Razor\Views\Consultas\ConsultasPendentes.g.cshtml.cs
 C:\Users\leona\source\repos\AlbertEinsteinTeste\AlbertEinsteinTeste\obj\Debug\netcoreapp2.1\Razor\Views\Consultas\ConfirmarAgendamento.g.cshtml.cs
+C:\Users\leona\source\repos\AlbertEinsteinTeste\AlbertEinsteinTeste\obj\Debug\netcoreapp2.1\Razor\Views\Shared\Erro.g.cshtml.cs
+C:\Users\leona\source\repos\AlbertEinsteinTeste\AlbertEinsteinTeste\obj\Debug\netcoreapp2.1\AlbertEinsteinTeste.csprojAssemblyReference.cache

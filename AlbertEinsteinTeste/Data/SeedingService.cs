@@ -49,15 +49,15 @@ namespace AlbertEinsteinTeste.Data
             Paciente p8 = new Paciente("Andréia Magnato Ferreira", "F", new DateTime(1984, 4, 9), "São Paulo", "SP");
 
             //CONSULTA
-            Consulta c5 = new Consulta("Vômito e dor de cabeça", "Gravidez", new DateTime(2020, 5, 1), m1, p1, (int)ConsultaSituacaoEnum.Pendente); //
+            Consulta c5 = new Consulta("Vômito e dor de cabeça", "Gravidez", new DateTime(2020, 5, 1, 11, 00, 00), m1, p1, (int)ConsultaSituacaoEnum.Pendente); //
             Consulta c1 = new Consulta("Dormê" +
-                "ncia e formigamento", "Princípio de AVC", new DateTime(2019, 10, 15), m2, p2, (int)ConsultaSituacaoEnum.Finalizada);
-            Consulta c6 = new Consulta("Coçeira e vermelhidão na pele", "Micose", new DateTime(2020, 3, 25), m3, p3, (int)ConsultaSituacaoEnum.Pendente);
-            Consulta c2 = new Consulta("Dor de garganta, tosse", "Virose", new DateTime(2019, 10, 15), m4, p4, (int)ConsultaSituacaoEnum.Finalizada);
-            Consulta c7 = new Consulta("Falta de concentração e dificuldade em ler", "Déficit de atenção", new DateTime(2020, 4, 19), m5, p5, (int)ConsultaSituacaoEnum.Pendente);
-            Consulta c8 = new Consulta("Pele descascando no pé e mal odor", "Fungo", new DateTime(2020, 3, 30), m6, p6, (int)ConsultaSituacaoEnum.Pendente);
-            Consulta c3 = new Consulta("Dores musculares, especialmente nas costas e pernas", "Virose", new DateTime(2019, 10, 31), m7, p7, (int)ConsultaSituacaoEnum.Finalizada);
-            Consulta c4 = new Consulta("Vômito e dor de cabeça", "Gravidez", new DateTime(2019, 10, 15), m8, p8, (int)ConsultaSituacaoEnum.Finalizada);
+                "ncia e formigamento", "Princípio de AVC", new DateTime(2019, 10, 15, 23, 10, 00), m2, p2, (int)ConsultaSituacaoEnum.Finalizada);
+            Consulta c6 = new Consulta("Coçeira e vermelhidão na pele", "Micose", new DateTime(2020, 3, 25, 20, 00, 00), m3, p3, (int)ConsultaSituacaoEnum.Pendente);
+            Consulta c2 = new Consulta("Dor de garganta, tosse", "Virose", new DateTime(2019, 10, 15, 9, 30, 00), m4, p4, (int)ConsultaSituacaoEnum.Finalizada);
+            Consulta c7 = new Consulta("Falta de concentração e dificuldade em ler", "Déficit de atenção", new DateTime(2020, 4, 19, 10, 00, 00), m5, p5, (int)ConsultaSituacaoEnum.Pendente);
+            Consulta c8 = new Consulta("Pele descascando no pé e mal odor", "Fungo", new DateTime(2020, 3, 30, 16, 00, 00), m6, p6, (int)ConsultaSituacaoEnum.Pendente);
+            Consulta c3 = new Consulta("Dores musculares, especialmente nas costas e pernas", "Virose", new DateTime(2019, 10, 31, 12, 30, 00), m7, p7, (int)ConsultaSituacaoEnum.Finalizada);
+            Consulta c4 = new Consulta("Vômito e dor de cabeça", "Gravidez", new DateTime(2019, 10, 15, 12, 00, 00), m8, p8, (int)ConsultaSituacaoEnum.Finalizada);
 
             _context.ConsultaSituacao.AddRange(cs1, cs2, cs3);
             _context.Consulta.AddRange(c1, c2, c3, c4, c5, c6, c7, c8);

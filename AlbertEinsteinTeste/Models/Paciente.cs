@@ -26,6 +26,7 @@ namespace AlbertEinsteinTeste.Models
         public string Sexo { get; set; }
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         [Display(Name = "Data de Nascimento")]
+        [DataType(DataType.Date)]
         public DateTime DataNascimento { get; set; }
         public string Cidade { get; set; }
         public string Estado { get; set; }

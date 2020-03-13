@@ -3,36 +3,32 @@ using System;
 using AlbertEinsteinTeste.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AlbertEinsteinTeste.Migrations
 {
     [DbContext(typeof(AlbertEinsteinTesteContext))]
-    [Migration("20200311183846_CriacaoDeCampoPacienteId")]
-    partial class CriacaoDeCampoPacienteId
+    [Migration("20200313210008_CriacaoDaBase")]
+    partial class CriacaoDaBase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("AlbertEinsteinTeste.Models.Consulta", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<int>("ConsultaSituacao");
+                    b.Property<int>("ConsultaSituacaoId");
 
                     b.Property<DateTime>("DataConsulta");
 
-                    b.Property<string>("Diagnostico")
-                        .IsRequired();
+                    b.Property<string>("Diagnostico");
 
                     b.Property<int>("MedicoId");
 
@@ -43,6 +39,8 @@ namespace AlbertEinsteinTeste.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ConsultaSituacaoId");
+
                     b.HasIndex("MedicoId");
 
                     b.HasIndex("PacienteId");
@@ -50,11 +48,22 @@ namespace AlbertEinsteinTeste.Migrations
                     b.ToTable("Consulta");
                 });
 
+            modelBuilder.Entity("AlbertEinsteinTeste.Models.ConsultaSituacao", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("DescricaoSituacao");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ConsultaSituacao");
+                });
+
             modelBuilder.Entity("AlbertEinsteinTeste.Models.Medico", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Cidade");
 
@@ -80,8 +89,7 @@ namespace AlbertEinsteinTeste.Migrations
             modelBuilder.Entity("AlbertEinsteinTeste.Models.Paciente", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Cidade");
 
@@ -100,6 +108,11 @@ namespace AlbertEinsteinTeste.Migrations
 
             modelBuilder.Entity("AlbertEinsteinTeste.Models.Consulta", b =>
                 {
+                    b.HasOne("AlbertEinsteinTeste.Models.ConsultaSituacao", "ConsultaSituacao")
+                        .WithMany()
+                        .HasForeignKey("ConsultaSituacaoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("AlbertEinsteinTeste.Models.Medico", "Medico")
                         .WithMany()
                         .HasForeignKey("MedicoId")

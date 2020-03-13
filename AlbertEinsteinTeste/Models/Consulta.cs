@@ -30,7 +30,7 @@ namespace AlbertEinsteinTeste.Models
         [Display(Name = "Diagnóstico")]
         public string Diagnostico { get; set; }
         [Display(Name = "Data")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}")]
         [Required(ErrorMessage = "{0} - Preenchimento obrigatório")]
         public DateTime DataConsulta { get; set; }
         [Required(ErrorMessage = "{0} - Preenchimento obrigatório")]

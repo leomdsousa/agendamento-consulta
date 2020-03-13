@@ -78,7 +78,7 @@ using AlbertEinsteinTeste.Models;
             WriteLiteral("</h2>\r\n\r\n<p>\r\n    ");
             EndContext();
             BeginContext(177, 88, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "72ae4e7638d749109908e59652439542", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "ed9d604a78a94946963baebe6aff63b6", async() => {
                 BeginContext(245, 16, true);
                 WriteLiteral("Agendar consulta");
                 EndContext();
@@ -101,7 +101,7 @@ using AlbertEinsteinTeste.Models;
             WriteLiteral("\r\n</p>\r\n\r\n<div class=\"row\">\r\n    <div class=\"col-md-6\">\r\n        ");
             EndContext();
             BeginContext(330, 753, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "9752b411247f41d4b578f05930fba143", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "9acb18dc33264ae380e3f53880d57365", async() => {
                 BeginContext(394, 682, true);
                 WriteLiteral(@"
             <fieldset>
