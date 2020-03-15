@@ -4,8 +4,18 @@
 
 <div class="container">
 
-    <div class="jumbotron">
-        <h1>@ViewData["Title"] - Instruções</h1>
+    <div class="jumbotron p-2 p-4">
+        <h2>@ViewData["Title"] - Instruções</h2>
+        <p class="">Necessário antes de rodar a aplicação, abrir o projeto e executar os commandos da migration no console para criar o banco de dados e as tabelas. Segue os comandos abaixo: </p>
+        <p class="">Comando para criar migration: <strong>add-migration nomeDaMigration</strong>. Exemplo: add-migration primeiraMigration</p>
+        <p class="">Comando para criar bancos e tabelas: <strong>update-database</strong></p>
+        
+        <p class="">Em caso de problema, subi outra versão da aplicação no git, porém com conexão MySql com um servidor online gratuito. Segue o link: 
+            <strong>
+                <a href="https://github.com/leomdsousa/AlbertEinsteinTeste">https://github.com/leomdsousa/AlbertEinsteinTeste</a>
+            </strong>
+        </p>
+
     </div>
 
     <div class="row">

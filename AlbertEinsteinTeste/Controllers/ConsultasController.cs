@@ -112,13 +112,14 @@ namespace AlbertEinsteinTeste.Controllers
             int idMedico = Convert.ToInt32(Request.Form["Medicos"]);
             agendamentoConsulta.Consulta.Medico = await _medicoService.ObterMedicoByIdAsync(idMedico);
 
+            if (_consultaService.VerificaDuplicidadeDeConsultaPorMedicoeHorario(agendamentoConsulta.Consulta))
+                return RedirectToAction(nameof(Erro), new { mensagem = "Já existe consulta marcada para a data e horário informados com o mesmo médico" });
+
             if(!_pacienteService.ExistePacienteByNomeAsync(agendamentoConsulta.Paciente.Nome))
                 await _pacienteService.AdicionarPacienteAsync(agendamentoConsulta.Paciente);
 
             agendamentoConsulta.Consulta.Paciente = await _pacienteService.ObterPacienteByNomeAsync(agendamentoConsulta.Paciente.Nome);
 
-            if (_consultaService.VerificaDuplicidadeDeConsultaPorMedicoeHorario(agendamentoConsulta.Consulta))
-                return RedirectToAction(nameof(Erro), new { mensagem = "Já existe consulta marcada para a data e horário informados com o mesmo médico" });
 
             await _consultaService.AddConsultaAsync(agendamentoConsulta.Consulta);
             return RedirectToAction(nameof(Index));
