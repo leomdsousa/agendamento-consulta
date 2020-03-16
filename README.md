@@ -7,6 +7,7 @@ Antes de rodar a aplicação é necessário dar efetuar a migration para criar o
 Comandos foram efetuados no Package Manager Console (no visual studio 2017)
 
 add-migration nomeMigration
+
 Exemplo: add-migration PrimeiraMigration
 
 update-database
