@@ -2,6 +2,7 @@
 using AlbertEinsteinTeste.Models;
 using AlbertEinsteinTeste.Models.Enums;
 using AlbertEinsteinTeste.Models.ViewModels;
+using AlbertEinsteinTeste.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace AlbertEinsteinTeste.Services
 {
-    public class ConsultaService
+    public class ConsultaService : IConsultaService
     {
         private readonly AlbertEinsteinTesteContext _context;
         private readonly MedicoService _medicoService;
@@ -135,7 +136,7 @@ namespace AlbertEinsteinTeste.Services
 
         }
 
-        internal async Task<List<Consulta>> BuscarConsultasPendentesAsync()
+        public async Task<List<Consulta>> BuscarConsultasPendentesAsync()
         {
             return await _context.Consulta
                         .Include(x => x.Medico)

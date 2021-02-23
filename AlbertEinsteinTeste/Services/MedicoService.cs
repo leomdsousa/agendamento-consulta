@@ -1,5 +1,6 @@
 ﻿using AlbertEinsteinTeste.Data;
 using AlbertEinsteinTeste.Models;
+using AlbertEinsteinTeste.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AlbertEinsteinTeste.Services
 {
-    public class MedicoService
+    public class MedicoService : IMedicoService
     {
         private readonly AlbertEinsteinTesteContext _context;
         public MedicoService(AlbertEinsteinTesteContext context)

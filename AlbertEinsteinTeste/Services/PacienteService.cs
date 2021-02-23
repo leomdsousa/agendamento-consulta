@@ -1,5 +1,6 @@
 ﻿using AlbertEinsteinTeste.Data;
 using AlbertEinsteinTeste.Models;
+using AlbertEinsteinTeste.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AlbertEinsteinTeste.Services
 {
-    public class PacienteService
+    public class PacienteService: IPacienteService
     {
         private readonly AlbertEinsteinTesteContext _context;
         public PacienteService(AlbertEinsteinTesteContext context)
@@ -20,6 +21,7 @@ namespace AlbertEinsteinTeste.Services
         {
             return await _context.Paciente.OrderByDescending(x => x.Nome).ToListAsync();
         }
+
         public async Task<Paciente> ObterPacienteByIdAsync(int? id)
         {
             return await _context.Paciente.FirstOrDefaultAsync(x => x.Id == id);
