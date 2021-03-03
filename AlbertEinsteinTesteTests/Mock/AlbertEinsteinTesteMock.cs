@@ -1,4 +1,5 @@
-﻿using AlbertEinsteinTeste.Services.Interfaces;
+﻿using AlbertEinsteinTeste.Repositorio.Interfaces;
+using AlbertEinsteinTeste.Services.Interfaces;
 using Moq;
 
 namespace AlbertEinsteinTesteTests.Mock
@@ -13,6 +14,14 @@ namespace AlbertEinsteinTesteTests.Mock
 
         #endregion SERVICE
 
+        #region REPOSITORIO
+
+        public Mock<IPacienteRepository> PacienteRepository { get; set; }
+        public Mock<IConsultaRepository> ConsultaRepository { get; set; }
+        public Mock<IMedicoRepository> MedicoRepository { get; set; }
+
+        #endregion REPOSITORIO
+
         public AlbertEinsteinTesteMock()
         {
             #region SERVICE
@@ -24,6 +33,16 @@ namespace AlbertEinsteinTesteTests.Mock
             MedicoService = new Mock<IMedicoService>();
 
             #endregion SERVICE
+
+            #region REPOSITORIO
+
+            PacienteRepository = new Mock<IPacienteRepository>();
+
+            ConsultaRepository = new Mock<IConsultaRepository>();
+
+            MedicoRepository = new Mock<IMedicoRepository>();
+
+            #endregion REPOSITORIO
         }
 
     }

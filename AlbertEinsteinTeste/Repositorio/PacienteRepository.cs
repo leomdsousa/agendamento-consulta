@@ -1,29 +1,28 @@
 ﻿using AlbertEinsteinTeste.Data;
 using AlbertEinsteinTeste.Models;
 using AlbertEinsteinTeste.Repositorio.Interfaces;
-using AlbertEinsteinTeste.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AlbertEinsteinTeste.Services
+namespace AlbertEinsteinTeste.Repositorio
 {
-    public class PacienteService: IPacienteService
+    public class PacienteRepository : IPacienteRepository
     {
-        private readonly IPacienteRepository _repository;
+        private readonly AlbertEinsteinTesteContext _context;
 
-        public PacienteService(IPacienteRepository repository)
+        public PacienteRepository(AlbertEinsteinTesteContext context)
         {
-            _repository = repository;
+            _context = context;
         }
 
         public async Task<List<Paciente>> GetAllPacientes()
         {
             try
             {
-                return await _repository.GetAllPacientes();
+                return await _context.Paciente.OrderByDescending(x => x.Nome).ToListAsync();
             }
             catch (Exception ex)
             {
@@ -35,7 +34,7 @@ namespace AlbertEinsteinTeste.Services
         {
             try
             {
-                return await _repository.ObterPacienteByIdAsync(id);
+                return await _context.Paciente.FirstOrDefaultAsync(x => x.Id == id);
             }
             catch (Exception ex)
             {
@@ -47,7 +46,7 @@ namespace AlbertEinsteinTeste.Services
         {
             try
             {
-                return await _repository.ObterPacienteByNomeAsync(nomePaciente);
+                return await _context.Paciente.FirstOrDefaultAsync(x => x.Nome.ToLower().Contains(nomePaciente.ToLower()));
             }
             catch (Exception ex)
             {
@@ -59,7 +58,7 @@ namespace AlbertEinsteinTeste.Services
         {
             try
             {
-                return _repository.ExistePacienteByNomeAsync(nomePaciente);
+                return _context.Paciente.Any(x => x.Nome.ToLower().Contains(nomePaciente.ToLower()));
             }
             catch (Exception ex)
             {
@@ -67,16 +66,12 @@ namespace AlbertEinsteinTeste.Services
             }
         }
 
-        public async Task DeletarPacienteAsync(int id)
+        public async Task DeletarPacienteAsync(Paciente paciente)
         {
             try
             {
-                var paciente = await _repository.ObterPacienteByIdAsync(id);
-
-                if (paciente == null)
-                    return;
-
-                await _repository.DeletarPacienteAsync(paciente);
+                _context.Paciente.Remove(paciente);
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -91,7 +86,8 @@ namespace AlbertEinsteinTeste.Services
                 if (paciente == null)
                     return;
 
-                await _repository.AdicionarPacienteAsync(paciente);
+                _context.Paciente.Add(paciente);
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -106,7 +102,8 @@ namespace AlbertEinsteinTeste.Services
                 if (paciente == null)
                     return;
 
-                await _repository.EditarPacienteAsync(paciente);
+                _context.Paciente.Update(paciente);
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {

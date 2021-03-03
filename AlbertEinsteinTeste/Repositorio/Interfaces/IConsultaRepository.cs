@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AlbertEinsteinTeste.Services.Interfaces
+namespace AlbertEinsteinTeste.Repositorio.Interfaces
 {
-    public interface IConsultaService
+    public interface IConsultaRepository
     {
-        Task<bool> VerificaDuplicidadeDeConsultaPorMedicoeHorario(Consulta consulta);
+        bool VerificaDuplicidadeDeConsultaPorMedicoeHorario(Consulta consulta);
 
         Task<List<Consulta>> BuscarConsultasAsync();
 
@@ -26,7 +26,7 @@ namespace AlbertEinsteinTeste.Services.Interfaces
 
         Task AddConsultaPendenteAsync(Consulta consulta);
 
-        Task RemoveAsync(int id);
+        Task RemoveAsync(Consulta consulta);
 
         Task EditarConsultaAsync(Consulta consulta);
 

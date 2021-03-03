@@ -78,7 +78,7 @@ namespace AlbertEinsteinTeste.Controllers
                 return View(consultaFormViewModel);
             }
 
-            if(_consultaService.VerificaDuplicidadeDeConsultaPorMedicoeHorario(consulta))
+            if(await _consultaService.VerificaDuplicidadeDeConsultaPorMedicoeHorario(consulta))
                 return RedirectToAction(nameof(Erro), new { mensagem = "Já existe consulta marcada para a data e horário informados com o mesmo médico" });
 
             await _consultaService.AddConsultaAsync(consulta);
@@ -112,7 +112,7 @@ namespace AlbertEinsteinTeste.Controllers
             int idMedico = Convert.ToInt32(Request.Form["Medicos"]);
             agendamentoConsulta.Consulta.Medico = await _medicoService.ObterMedicoByIdAsync(idMedico);
 
-            if (_consultaService.VerificaDuplicidadeDeConsultaPorMedicoeHorario(agendamentoConsulta.Consulta))
+            if (await _consultaService.VerificaDuplicidadeDeConsultaPorMedicoeHorario(agendamentoConsulta.Consulta))
                 return RedirectToAction(nameof(Erro), new { mensagem = "Já existe consulta marcada para a data e horário informados com o mesmo médico" });
 
             if(!_pacienteService.ExistePacienteByNomeAsync(agendamentoConsulta.Paciente.Nome))

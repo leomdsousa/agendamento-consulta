@@ -15,6 +15,9 @@ using Microsoft.Extensions.DependencyInjection;
 using AlbertEinsteinTeste.Data;
 using AlbertEinsteinTeste.Services;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using AlbertEinsteinTeste.Services.Interfaces;
+using AlbertEinsteinTeste.Repositorio.Interfaces;
+using AlbertEinsteinTeste.Repositorio;
 
 namespace AlbertEinsteinTeste
 {
@@ -47,10 +50,16 @@ namespace AlbertEinsteinTeste
             //         options.UseMySql(Configuration.GetConnectionString("AlbertEinsteinTesteContext")
             //         , mySqlOptionsAction => mySqlOptionsAction.ServerVersion(new Version(), ServerType.MySql)));
 
+            //Serviços
             services.AddScoped<SeedingService>();
-            services.AddScoped<ConsultaService>();
-            services.AddScoped<MedicoService>();
-            services.AddScoped<PacienteService>();
+            services.AddScoped<IConsultaService, ConsultaService>();
+            services.AddScoped<IMedicoService, MedicoService>();
+            services.AddScoped<IPacienteService, PacienteService>();
+
+            //Repositorios
+            services.AddScoped<IConsultaRepository, ConsultaRepository>();
+            services.AddScoped<IMedicoRepository, MedicoRepository>();
+            services.AddScoped<IPacienteRepository, PacienteRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

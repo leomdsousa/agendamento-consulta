@@ -1,34 +1,32 @@
 ﻿using AlbertEinsteinTeste.Data;
 using AlbertEinsteinTeste.Models;
 using AlbertEinsteinTeste.Models.Enums;
-using AlbertEinsteinTeste.Models.ViewModels;
 using AlbertEinsteinTeste.Repositorio.Interfaces;
-using AlbertEinsteinTeste.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AlbertEinsteinTeste.Services
+namespace AlbertEinsteinTeste.Repositorio
 {
-    public class ConsultaService : IConsultaService
+    public class ConsultaRepository : IConsultaRepository
     {
-        private readonly IConsultaRepository _repository;
+        private readonly AlbertEinsteinTesteContext _context;
 
-        public ConsultaService(IConsultaRepository repository)
+        public ConsultaRepository(AlbertEinsteinTesteContext context)
         {
-            _repository = repository;
+            _context = context;
         }
 
-        public async Task<bool> VerificaDuplicidadeDeConsultaPorMedicoeHorario(Consulta consulta)
+        public bool VerificaDuplicidadeDeConsultaPorMedicoeHorario(Consulta consulta)
         {
             try
             {
                 bool existeConsultaNoHorario = false;
 
-                List<Consulta> consultasMedicoEscolhido = await _repository.FiltraConsultasPorMedicoByIdAsync(consulta.Medico.Id);
+                List<Consulta> consultasMedicoEscolhido = _context.Consulta.Include(x => x.Medico)
+                                            .Where(x => x.Medico.Id == consulta.Medico.Id).ToList();
 
                 if (consultasMedicoEscolhido.Any(x => (x.DataConsulta - consulta.DataConsulta).TotalMinutes == 0))
                 {
@@ -48,7 +46,11 @@ namespace AlbertEinsteinTeste.Services
         {
             try
             {
-                return await _repository.BuscarConsultasAsync();
+                return await _context.Consulta
+                    .Include(x => x.Medico)
+                    .Include(x => x.Paciente)
+                    .Include(x => x.ConsultaSituacao)
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
@@ -60,7 +62,12 @@ namespace AlbertEinsteinTeste.Services
         {
             try
             {
-                return await _repository.FiltraConsultasPorMedicoByIdAsync(idMedico);
+                return await _context.Consulta
+                    .Include(x => x.Paciente)
+                    .Include(x => x.Medico)
+                    .Where(x => x.Id == idMedico)
+                    .OrderByDescending(x => x.DataConsulta)
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
@@ -72,7 +79,12 @@ namespace AlbertEinsteinTeste.Services
         {
             try
             {
-                return await _repository.FiltraConsultasPorMedicoByNomeAsync(nomeMedico);
+                return await _context.Consulta
+                    .Include(x => x.Paciente)
+                    .Include(x => x.Medico)
+                    .Where(x => x.Medico.Nome.ToLower().Contains(nomeMedico.ToLower()))
+                    .OrderByDescending(x => x.DataConsulta)
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
@@ -84,7 +96,12 @@ namespace AlbertEinsteinTeste.Services
         {
             try
             {
-                return await _repository.FiltraConsultasPorPacienteByNomeAsync(nomePaciente);
+                return await _context.Consulta
+                    .Include(x => x.Paciente)
+                    .Include(x => x.Medico)
+                    .Where(x => x.Paciente.Nome.ToLower().Contains(nomePaciente.ToLower()))
+                    .OrderByDescending(x => x.DataConsulta)
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
@@ -96,7 +113,10 @@ namespace AlbertEinsteinTeste.Services
         {
             try
             {
-                return await _repository.FiltraConsultasPorPacienteAsync(idPaciente);
+                return await _context.Consulta
+                    .Where(x => x.Id == idPaciente)
+                    .OrderByDescending(x => x.DataConsulta)
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
@@ -108,7 +128,11 @@ namespace AlbertEinsteinTeste.Services
         {
             try
             {
-                return await _repository.ObterConsultaByIdAsync(id);
+                return await _context.Consulta
+                    .Include(m => m.Medico)
+                    .Include(p => p.Paciente)
+                    .Include(c => c.ConsultaSituacao)
+                    .FirstOrDefaultAsync(x => x.Id == id);
             }
             catch (Exception ex)
             {
@@ -123,7 +147,8 @@ namespace AlbertEinsteinTeste.Services
                 if (consulta == null)
                     return;
 
-                await _repository.AddConsultaAsync(consulta);
+                _context.Consulta.Add(consulta);
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -140,7 +165,8 @@ namespace AlbertEinsteinTeste.Services
 
                 consulta.ConsultaSituacaoId = (int)ConsultaSituacaoEnum.Aberta;
 
-                await _repository.AddConsultaPendenteAsync(consulta);
+                _context.Consulta.Update(consulta);
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -148,16 +174,15 @@ namespace AlbertEinsteinTeste.Services
             }
         }
 
-        public async Task RemoveAsync(int id)
+        public async Task RemoveAsync(Consulta consulta)
         {
             try
             {
-                var consulta = await _repository.ObterConsultaByIdAsync(id);
-
                 if (consulta == null)
                     return;
 
-                await _repository.RemoveAsync(consulta);
+                _context.Consulta.Remove(consulta);
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -172,7 +197,8 @@ namespace AlbertEinsteinTeste.Services
                 if (consulta == null)
                     return;
 
-                await _repository.EditarConsultaAsync(consulta);
+                _context.Consulta.Update(consulta);
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -184,7 +210,12 @@ namespace AlbertEinsteinTeste.Services
         {
             try
             {
-                return await _repository.BuscarConsultasPendentesAsync();
+                return await _context.Consulta
+                    .Include(x => x.Medico)
+                    .Include(x => x.Paciente)
+                    .Include(x => x.ConsultaSituacao)
+                    .Where(x => x.ConsultaSituacaoId == 3) //Pendentes
+                    .ToListAsync();
             }
             catch (Exception ex)
             {

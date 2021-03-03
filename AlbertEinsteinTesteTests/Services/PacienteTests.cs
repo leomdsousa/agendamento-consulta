@@ -1,10 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using AlbertEinsteinTeste.Data;
 using AlbertEinsteinTeste.Models;
 using AlbertEinsteinTeste.Services;
 using AlbertEinsteinTesteTests.Mock;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Moq;
 using Xunit;
 
 namespace AlbertEinsteinTesteTests.Services
@@ -12,14 +13,12 @@ namespace AlbertEinsteinTesteTests.Services
     public class PacienteTests
     {
         private readonly PacienteService _pacienteService;
-        private readonly AlbertEinsteinTesteContext _context;
         private readonly AlbertEinsteinTesteMock _mock; 
 
         public PacienteTests()
         {
-            //_context = new AlbertEinsteinTesteContext();
-            _pacienteService = new PacienteService(_context);
             _mock = new AlbertEinsteinTesteMock();
+            _pacienteService = new PacienteService(_mock.PacienteRepository.Object);
         }
 
         [Fact(DisplayName = "ObterPacienteByIdAsync")]
@@ -27,28 +26,28 @@ namespace AlbertEinsteinTesteTests.Services
         {
             //arrange
             int id = 1;
-            _mock.PacienteService.Setup(x => x.ObterPacienteByIdAsync(id)).Returns(Task.FromResult(this.RetornaPaciente()));
+            _mock.PacienteRepository.Setup(x => x.ObterPacienteByIdAsync(It.IsAny<int>())).Returns(Task.FromResult(this.RetornaPaciente()));
 
             //act
-            var result = _pacienteService.GetAllPacientes();
+            var result = _pacienteService.ObterPacienteByIdAsync(id);
 
             //asset
-            Assert.NotNull(result);
-            Assert.IsType<Paciente>(result);
+            Assert.NotNull(result.Result);
+            Assert.IsType<Paciente>(result.Result);
         }
 
         [Fact(DisplayName = "GetAllPacientes")]
         public void GetAllPacientes()
         {
             //arrange
-            _mock.PacienteService.Setup(x => x.GetAllPacientes()).Returns(Task.FromResult(this.RetornaListaPaciente()));
+            _mock.PacienteRepository.Setup(x => x.GetAllPacientes()).Returns(Task.FromResult(this.RetornaListaPaciente()));
 
             //act
             var result = _pacienteService.GetAllPacientes();
 
             //asset
             Assert.NotEmpty(result.Result);
-            Assert.IsType<List<Paciente>>(result);
+            Assert.IsType<List<Paciente>>(result.Result);
         }
 
         #region METODOS AUXILIARES

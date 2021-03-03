@@ -1,29 +1,28 @@
 ﻿using AlbertEinsteinTeste.Data;
 using AlbertEinsteinTeste.Models;
 using AlbertEinsteinTeste.Repositorio.Interfaces;
-using AlbertEinsteinTeste.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AlbertEinsteinTeste.Services
+namespace AlbertEinsteinTeste.Repositorio
 {
-    public class MedicoService : IMedicoService
+    public class MedicoRepository : IMedicoRepository
     {
-        private readonly IMedicoRepository _repository;
+        private readonly AlbertEinsteinTesteContext _context;
 
-        public MedicoService(IMedicoRepository repository)
+        public MedicoRepository(AlbertEinsteinTesteContext context)
         {
-            _repository = repository;
+            _context = context;
         }
 
         public async Task<List<Medico>> GetAllMedicos()
         {
             try
             {
-                return await _repository.GetAllMedicos();
+                return await _context.Medico.OrderBy(x => x.Nome).ToListAsync();
             }
             catch (Exception ex)
             {
@@ -35,7 +34,7 @@ namespace AlbertEinsteinTeste.Services
         {
             try
             {
-                return await _repository.ObterMedicoByIdAsync(id);
+                return await _context.Medico.FirstOrDefaultAsync(x => x.Id == id);
             }
             catch (Exception ex)
             {
@@ -43,16 +42,12 @@ namespace AlbertEinsteinTeste.Services
             }
         }
 
-        public async Task DeletarMedicoAsync(int id)
+        public async Task DeletarMedicoAsync(Medico medico)
         {
             try
             {
-                var medico = await _repository.ObterMedicoByIdAsync(id);
-
-                if (medico == null)
-                    return;
-
-                await _repository.DeletarMedicoAsync(medico);
+                _context.Medico.Remove(medico);
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -64,10 +59,8 @@ namespace AlbertEinsteinTeste.Services
         {
             try
             {
-                if (medico == null)
-                    return;
-
-                await _repository.AdicionarMedicoAsync(medico);
+                _context.Medico.Add(medico);
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -79,10 +72,8 @@ namespace AlbertEinsteinTeste.Services
         {
             try
             {
-                if (medico == null)
-                    return;
-
-                await _repository.EditarMedicoAsync(medico);
+                _context.Medico.Update(medico);
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
