@@ -1,46 +1,61 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using AlbertEinsteinTeste.Models;
-using AlbertEinsteinTeste.Services;
+using AlbertEinsteinTeste.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AlbertEinsteinTeste.Controllers
 {
+    [ValidateAntiForgeryToken]
     public class PacientesController : Controller
     {
-        private readonly PacienteService _pacienteService;
-        public PacientesController(PacienteService pacienteService)
+        private readonly IPacienteService _pacienteService;
+        public PacientesController(
+            IPacienteService pacienteService
+            )
         {
             _pacienteService = pacienteService;
         }
 
         public async Task<IActionResult> Index()
         {
-            List<Paciente> pacientes = await _pacienteService.GetAllPacientes();
-            return View(pacientes);
+            try
+            {
+                List<Paciente> pacientes = await _pacienteService.GetAllPacientes();
+                return View(pacientes);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            try
             {
-                return RedirectToAction(nameof(Erro), new { mensagem = "Id nulo" });
-            }
+                if (id == null)
+                {
+                    return RedirectToAction(nameof(Erro), new { mensagem = "Id nulo" });
+                }
 
-            Paciente paciente = await _pacienteService.ObterPacienteByIdAsync(id);
-            if (paciente == null)
+                Paciente paciente = await _pacienteService.ObterPacienteByIdAsync(id);
+                if (paciente == null)
+                {
+                    return RedirectToAction(nameof(Erro), new { mensagem = "Paciente não encontrado" });
+                }
+
+                return View(paciente);
+            }
+            catch (Exception ex)
             {
-                return RedirectToAction(nameof(Erro), new { mensagem = "Paciente não encontrado" });
+                throw ex;
             }
-
-            return View(paciente);
         }
 
         [HttpDelete]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
             try
@@ -48,7 +63,7 @@ namespace AlbertEinsteinTeste.Controllers
                 await _pacienteService.DeletarPacienteAsync(id);
                 return RedirectToAction(nameof(Index));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return RedirectToAction(nameof(Erro), new { mensagem = "Erro durante processamento." });
             }
@@ -60,45 +75,64 @@ namespace AlbertEinsteinTeste.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Paciente paciente)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return RedirectToAction(nameof(Erro), new { mensagem = "Erro durante processamento. Verifique os dados informados e tente novamente" });
-            }
+                if (!ModelState.IsValid)
+                {
+                    return RedirectToAction(nameof(Erro), new { mensagem = "Erro durante processamento. Verifique os dados informados e tente novamente" });
+                }
 
-            await _pacienteService.AdicionarPacienteAsync(paciente);
-            return RedirectToAction(nameof(Index));
+                await _pacienteService.AdicionarPacienteAsync(paciente);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            try
             {
-                return RedirectToAction(nameof(Erro), new { mensagem = "Id nulo" });
-            }
+                if (id == null)
+                {
+                    return RedirectToAction(nameof(Erro), new { mensagem = "Id nulo" });
+                }
 
-            Paciente paciente = await _pacienteService.ObterPacienteByIdAsync(id.Value);
-            if (paciente == null)
+                Paciente paciente = await _pacienteService.ObterPacienteByIdAsync(id.Value);
+                if (paciente == null)
+                {
+                    return RedirectToAction(nameof(Erro), new { mensagem = "Paciente não encontrado" });
+                }
+
+                return View(paciente);
+            }
+            catch (Exception ex)
             {
-                return RedirectToAction(nameof(Erro), new { mensagem = "Paciente não encontrado" });
+                throw ex;
             }
-
-            return View(paciente);
         }
 
         [HttpPut]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Paciente paciente)
         {
-            if (paciente == null)
+            try
             {
-                return RedirectToAction(nameof(Erro), new { mensagem = "Paciente não encontrado" });
-            }
+                if (paciente == null)
+                {
+                    return RedirectToAction(nameof(Erro), new { mensagem = "Paciente não encontrado" });
+                }
 
-            await _pacienteService.EditarPacienteAsync(paciente);
-            return RedirectToAction(nameof(Index));
+                await _pacienteService.EditarPacienteAsync(paciente);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -1,13 +1,9 @@
-﻿using AlbertEinsteinTeste.Data;
-using AlbertEinsteinTeste.Models;
+﻿using AlbertEinsteinTeste.Models;
 using AlbertEinsteinTeste.Models.Enums;
-using AlbertEinsteinTeste.Models.ViewModels;
 using AlbertEinsteinTeste.Repositorio.Interfaces;
 using AlbertEinsteinTeste.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 

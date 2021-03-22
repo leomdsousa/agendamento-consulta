@@ -1,23 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using AlbertEinsteinTeste.Models;
 using AlbertEinsteinTeste.Models.Enums;
 using AlbertEinsteinTeste.Models.ViewModels;
-using AlbertEinsteinTeste.Services;
+using AlbertEinsteinTeste.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AlbertEinsteinTeste.Controllers
 {
+    [ValidateAntiForgeryToken]
     public class ConsultasController : Controller
     {
-        private readonly ConsultaService _consultaService;
-        private readonly MedicoService _medicoService;
-        private readonly PacienteService _pacienteService;
-        public ConsultasController(ConsultaService consultaService, MedicoService medicoService, PacienteService pacienteService)
+        private readonly IConsultaService _consultaService;
+        private readonly IMedicoService _medicoService;
+        private readonly IPacienteService _pacienteService;
+
+        public ConsultasController(
+            IConsultaService consultaService,
+            IMedicoService medicoService,
+            IPacienteService pacienteService
+            )
         {
             _consultaService = consultaService;
             _medicoService = medicoService;
@@ -26,123 +31,183 @@ namespace AlbertEinsteinTeste.Controllers
 
         public async Task<IActionResult> Index()
         {
-            List<Consulta> listaConsultas = await _consultaService.BuscarConsultasAsync();
-            return View(listaConsultas);
+            try
+            {
+                List<Consulta> listaConsultas = await _consultaService.BuscarConsultasAsync();
+                return View(listaConsultas);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<IActionResult> IndexPaciente()
         {
-            List<Consulta> listaConsultas = await _consultaService.BuscarConsultasAsync();
-            return View(listaConsultas);
+            try
+            {
+                List<Consulta> listaConsultas = await _consultaService.BuscarConsultasAsync();
+                return View(listaConsultas);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<IActionResult> ConsultasPorMedico(string nomeMedico)
         {
-            if (string.IsNullOrEmpty(nomeMedico))
-                return View(RedirectToAction(nameof(Index)));
+            try
+            {
+                if (string.IsNullOrEmpty(nomeMedico))
+                    return View(RedirectToAction(nameof(Index)));
 
-            List<Consulta> listaConsultasPorMedico = await _consultaService.FiltraConsultasPorMedicoByNomeAsync(nomeMedico);
-            return View(listaConsultasPorMedico);
+                List<Consulta> listaConsultasPorMedico = await _consultaService.FiltraConsultasPorMedicoByNomeAsync(nomeMedico);
+                return View(listaConsultasPorMedico);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<IActionResult> ConsultasPorPaciente(string nomePaciente)
         {
-            if (string.IsNullOrEmpty(nomePaciente))
-                return View(RedirectToAction(nameof(Index)));
+            try
+            {
+                if (string.IsNullOrEmpty(nomePaciente))
+                    return View(RedirectToAction(nameof(Index)));
 
-            List<Consulta> listaConsultasPorPaciente = await _consultaService.FiltraConsultasPorPacienteByNomeAsync(nomePaciente);
-            return View(listaConsultasPorPaciente);
+                List<Consulta> listaConsultasPorPaciente = await _consultaService.FiltraConsultasPorPacienteByNomeAsync(nomePaciente);
+                return View(listaConsultasPorPaciente);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<IActionResult> Create()
         {
-            List<Medico> medicos = await _medicoService.GetAllMedicos();
-            var consultaViewModel = new ConsultaFormViewModel { Medicos = medicos };
-            return View(consultaViewModel);
+            try
+            {
+                List<Medico> medicos = await _medicoService.GetAllMedicos();
+                var consultaViewModel = new ConsultaFormViewModel { Medicos = medicos };
+                return View(consultaViewModel);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Consulta consulta)
         {
-            consulta.ConsultaSituacaoId = (int)ConsultaSituacaoEnum.Aberta;
-
-            if (!ModelState.IsValid)
+            try
             {
-                List<Medico> medicos = await _medicoService.GetAllMedicos();
-                ConsultaFormViewModel consultaFormViewModel = new ConsultaFormViewModel
+                consulta.ConsultaSituacaoId = (int)ConsultaSituacaoEnum.Aberta;
+
+                if (!ModelState.IsValid)
                 {
-                    Consulta = consulta, Medicos = medicos
-                };
+                    List<Medico> medicos = await _medicoService.GetAllMedicos();
+                    ConsultaFormViewModel consultaFormViewModel = new ConsultaFormViewModel
+                    {
+                        Consulta = consulta,
+                        Medicos = medicos
+                    };
 
-                return View(consultaFormViewModel);
+                    return View(consultaFormViewModel);
+                }
+
+                if (await _consultaService.VerificaDuplicidadeDeConsultaPorMedicoeHorario(consulta))
+                    return RedirectToAction(nameof(Erro), new { mensagem = "Já existe consulta marcada para a data e horário informados com o mesmo médico" });
+
+                await _consultaService.AddConsultaAsync(consulta);
+                return RedirectToAction(nameof(Index));
             }
-
-            if(await _consultaService.VerificaDuplicidadeDeConsultaPorMedicoeHorario(consulta))
-                return RedirectToAction(nameof(Erro), new { mensagem = "Já existe consulta marcada para a data e horário informados com o mesmo médico" });
-
-            await _consultaService.AddConsultaAsync(consulta);
-            return RedirectToAction(nameof(Index));
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<IActionResult> AgendarConsulta()
         {
-            List<Medico> medicos = await _medicoService.GetAllMedicos();
-            var consultaViewModel = new ConsultaFormViewModel { Medicos = medicos };
-            return View(consultaViewModel);
+            try
+            {
+                List<Medico> medicos = await _medicoService.GetAllMedicos();
+                var consultaViewModel = new ConsultaFormViewModel { Medicos = medicos };
+                return View(consultaViewModel);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AgendarConsulta(ConsultaFormViewModel agendamentoConsulta, IFormCollection form)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                List<Medico> medicos = await _medicoService.GetAllMedicos();
-                ConsultaFormViewModel consultaFormViewModel = new ConsultaFormViewModel
+                if (!ModelState.IsValid)
                 {
-                    Consulta = agendamentoConsulta.Consulta,
-                    Medico = agendamentoConsulta.Medico
-                };
+                    List<Medico> medicos = await _medicoService.GetAllMedicos();
+                    ConsultaFormViewModel consultaFormViewModel = new ConsultaFormViewModel
+                    {
+                        Consulta = agendamentoConsulta.Consulta,
+                        Medico = agendamentoConsulta.Medico
+                    };
 
-                return View(consultaFormViewModel);
+                    return View(consultaFormViewModel);
+                }
+
+                agendamentoConsulta.Consulta.ConsultaSituacaoId = (int)ConsultaSituacaoEnum.Pendente;
+                int idMedico = Convert.ToInt32(Request.Form["Medicos"]);
+                agendamentoConsulta.Consulta.Medico = await _medicoService.ObterMedicoByIdAsync(idMedico);
+
+                if (await _consultaService.VerificaDuplicidadeDeConsultaPorMedicoeHorario(agendamentoConsulta.Consulta))
+                    return RedirectToAction(nameof(Erro), new { mensagem = "Já existe consulta marcada para a data e horário informados com o mesmo médico" });
+
+                if (!_pacienteService.ExistePacienteByNomeAsync(agendamentoConsulta.Paciente.Nome))
+                    await _pacienteService.AdicionarPacienteAsync(agendamentoConsulta.Paciente);
+
+                agendamentoConsulta.Consulta.Paciente = await _pacienteService.ObterPacienteByNomeAsync(agendamentoConsulta.Paciente.Nome);
+
+                await _consultaService.AddConsultaAsync(agendamentoConsulta.Consulta);
+                return RedirectToAction(nameof(Index));
             }
-
-            agendamentoConsulta.Consulta.ConsultaSituacaoId = (int)ConsultaSituacaoEnum.Pendente;
-            int idMedico = Convert.ToInt32(Request.Form["Medicos"]);
-            agendamentoConsulta.Consulta.Medico = await _medicoService.ObterMedicoByIdAsync(idMedico);
-
-            if (await _consultaService.VerificaDuplicidadeDeConsultaPorMedicoeHorario(agendamentoConsulta.Consulta))
-                return RedirectToAction(nameof(Erro), new { mensagem = "Já existe consulta marcada para a data e horário informados com o mesmo médico" });
-
-            if(!_pacienteService.ExistePacienteByNomeAsync(agendamentoConsulta.Paciente.Nome))
-                await _pacienteService.AdicionarPacienteAsync(agendamentoConsulta.Paciente);
-
-            agendamentoConsulta.Consulta.Paciente = await _pacienteService.ObterPacienteByNomeAsync(agendamentoConsulta.Paciente.Nome);
-
-
-            await _consultaService.AddConsultaAsync(agendamentoConsulta.Consulta);
-            return RedirectToAction(nameof(Index));
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            try
             {
-                return RedirectToAction(nameof(Erro), new { mensagem = "Id nulo" });
-            }
+                if (id == null)
+                {
+                    return RedirectToAction(nameof(Erro), new { mensagem = "Id nulo" });
+                }
 
-            Consulta consulta = await _consultaService.ObterConsultaByIdAsync(id);
-            if (consulta == null)
+                Consulta consulta = await _consultaService.ObterConsultaByIdAsync(id);
+                if (consulta == null)
+                {
+                    return RedirectToAction(nameof(Erro), new { mensagem = "Consulta não encontrada" });
+                }
+
+                return View(consulta);
+            }
+            catch (Exception ex)
             {
-                return RedirectToAction(nameof(Erro), new { mensagem = "Consulta não encontrada" });
+                throw ex;
             }
-
-            return View(consulta);
         }
 
         [HttpDelete]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
             try
@@ -158,44 +223,71 @@ namespace AlbertEinsteinTeste.Controllers
 
         public async Task<IActionResult> Edit(int? id)
         {
-            if (!id.HasValue)
-                return RedirectToAction(nameof(Erro), new { mensagem = "Id nulo" });
+            try
+            {
+                if (!id.HasValue)
+                    return RedirectToAction(nameof(Erro), new { mensagem = "Id nulo" });
 
-            Consulta consulta = await _consultaService.ObterConsultaByIdAsync(id);
-            return View(consulta);
+                Consulta consulta = await _consultaService.ObterConsultaByIdAsync(id);
+                return View(consulta);
+            }
+            catch (Exception ex) 
+            {
+                throw ex; 
+            }
         }
 
         [HttpPut]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Consulta consulta)
         {
-            if (consulta == null)
+            try
             {
-                return RedirectToAction(nameof(Erro), new { mensagem = "Consulta não encontrada" });
-            }
+                if (consulta == null)
+                {
+                    return RedirectToAction(nameof(Erro), new { mensagem = "Consulta não encontrada" });
+                }
 
-            await _consultaService.EditarConsultaAsync(consulta);
-            return RedirectToAction(nameof(Index));
+                await _consultaService.EditarConsultaAsync(consulta);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex) 
+            {
+                throw ex; 
+            }
         }
 
         public async Task<IActionResult> ConsultasPendentes()
         {
-            List<Consulta> listaConsultas = await _consultaService.BuscarConsultasPendentesAsync();
-            return View(listaConsultas);
+            try
+            {
+                List<Consulta> listaConsultas = await _consultaService.BuscarConsultasPendentesAsync();
+                return View(listaConsultas);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<IActionResult> ConfirmarAgendamento(int? id)
         {
-            if (!id.HasValue)
-                return RedirectToAction(nameof(Erro), new { mensagem = "Id nulo" });
+            try
+            {
+                if (!id.HasValue)
+                    return RedirectToAction(nameof(Erro), new { mensagem = "Id nulo" });
 
-            Consulta consulta = await _consultaService.ObterConsultaByIdAsync(id.Value);
+                Consulta consulta = await _consultaService.ObterConsultaByIdAsync(id.Value);
 
-            if (consulta == null)
-                return RedirectToAction(nameof(Erro), new { mensagem = "Consulta não encontrada" });
+                if (consulta == null)
+                    return RedirectToAction(nameof(Erro), new { mensagem = "Consulta não encontrada" });
 
-            await _consultaService.AddConsultaPendenteAsync(consulta);
-            return RedirectToAction(nameof(ConsultasPendentes));
+                await _consultaService.AddConsultaPendenteAsync(consulta);
+                return RedirectToAction(nameof(ConsultasPendentes));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
