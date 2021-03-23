@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AlbertEinsteinTeste.Data;
-using AlbertEinsteinTeste.Models;
-using AlbertEinsteinTeste.Services;
+using AgendamentoConsulta.Data;
+using AgendamentoConsulta.Models;
+using AgendamentoConsulta.Services;
 using AlbertEinsteinTesteTests.Mock;
 using Moq;
 using Xunit;

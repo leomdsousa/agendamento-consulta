@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AlbertEinsteinTeste.Models
+namespace AgendamentoConsulta.Models
 {
     public class Medico
     {

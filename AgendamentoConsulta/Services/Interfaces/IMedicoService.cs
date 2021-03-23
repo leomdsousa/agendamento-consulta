@@ -1,8 +1,8 @@
-﻿using AlbertEinsteinTeste.Models;
+﻿using AgendamentoConsulta.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace AlbertEinsteinTeste.Services.Interfaces
+namespace AgendamentoConsulta.Services.Interfaces
 {
     public interface IMedicoService
     {

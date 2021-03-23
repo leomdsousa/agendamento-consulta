@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using AlbertEinsteinTeste.Models;
-using AlbertEinsteinTeste.Models.Enums;
+using AgendamentoConsulta.Models;
+using AgendamentoConsulta.Models.Enums;
 
-namespace AlbertEinsteinTeste.Data
+namespace AgendamentoConsulta.Data
 {
     public class SeedingService
     {

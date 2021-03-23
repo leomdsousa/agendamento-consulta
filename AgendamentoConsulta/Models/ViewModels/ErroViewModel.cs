@@ -1,6 +1,6 @@
 using System;
 
-namespace AlbertEinsteinTeste.Models
+namespace AgendamentoConsulta.Models
 {
     public class ErroViewModel
     {

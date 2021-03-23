@@ -1,7 +1,7 @@
-﻿using AlbertEinsteinTeste.Models;
+﻿using AgendamentoConsulta.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace AlbertEinsteinTeste.Data
+namespace AgendamentoConsulta.Data
 {
     public class AlbertEinsteinTesteContext : DbContext
     {

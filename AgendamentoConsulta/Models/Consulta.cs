@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace AlbertEinsteinTeste.Models
+namespace AgendamentoConsulta.Models
 {
     public class Consulta
     {

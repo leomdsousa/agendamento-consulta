@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using AlbertEinsteinTeste.Models;
-using AlbertEinsteinTeste.Services.Interfaces;
+using AgendamentoConsulta.Models;
+using AgendamentoConsulta.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AlbertEinsteinTeste.Controllers
+namespace AgendamentoConsulta.Controllers
 {
     [ValidateAntiForgeryToken]
     public class PacientesController : Controller

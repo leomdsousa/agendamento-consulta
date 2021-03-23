@@ -1,5 +1,5 @@
-﻿using AlbertEinsteinTeste.Repositorio.Interfaces;
-using AlbertEinsteinTeste.Services.Interfaces;
+﻿using AgendamentoConsulta.Repositorio.Interfaces;
+using AgendamentoConsulta.Services.Interfaces;
 using Moq;
 
 namespace AlbertEinsteinTesteTests.Mock

@@ -1,13 +1,13 @@
-﻿using AlbertEinsteinTeste.Models;
-using AlbertEinsteinTeste.Models.Enums;
-using AlbertEinsteinTeste.Repositorio.Interfaces;
-using AlbertEinsteinTeste.Services.Interfaces;
+﻿using AgendamentoConsulta.Models;
+using AgendamentoConsulta.Models.Enums;
+using AgendamentoConsulta.Repositorio.Interfaces;
+using AgendamentoConsulta.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AlbertEinsteinTeste.Services
+namespace AgendamentoConsulta.Services
 {
     public class ConsultaService : IConsultaService
     {

@@ -1,4 +1,4 @@
-﻿namespace AlbertEinsteinTeste.Models
+﻿namespace AgendamentoConsulta.Models
 {
     public class ConsultaSituacao
     {

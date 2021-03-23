@@ -12,14 +12,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using AlbertEinsteinTeste.Data;
-using AlbertEinsteinTeste.Services;
+using AgendamentoConsulta.Data;
+using AgendamentoConsulta.Services;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
-using AlbertEinsteinTeste.Services.Interfaces;
-using AlbertEinsteinTeste.Repositorio.Interfaces;
-using AlbertEinsteinTeste.Repositorio;
+using AgendamentoConsulta.Services.Interfaces;
+using AgendamentoConsulta.Repositorio.Interfaces;
+using AgendamentoConsulta.Repositorio;
 
-namespace AlbertEinsteinTeste
+namespace AgendamentoConsulta
 {
     public class Startup
     {
@@ -95,7 +95,7 @@ namespace AlbertEinsteinTeste
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Login}/{action=Index}");
             });
         }
     }

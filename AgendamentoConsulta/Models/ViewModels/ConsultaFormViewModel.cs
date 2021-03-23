@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace AlbertEinsteinTeste.Models.ViewModels
+namespace AgendamentoConsulta.Models.ViewModels
 {
     public class ConsultaFormViewModel
     {

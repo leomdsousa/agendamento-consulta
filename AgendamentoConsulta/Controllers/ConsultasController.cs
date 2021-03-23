@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using AlbertEinsteinTeste.Models;
-using AlbertEinsteinTeste.Models.Enums;
-using AlbertEinsteinTeste.Models.ViewModels;
-using AlbertEinsteinTeste.Services.Interfaces;
+using AgendamentoConsulta.Models;
+using AgendamentoConsulta.Models.Enums;
+using AgendamentoConsulta.Models.ViewModels;
+using AgendamentoConsulta.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AlbertEinsteinTeste.Controllers
+namespace AgendamentoConsulta.Controllers
 {
     [ValidateAntiForgeryToken]
     public class ConsultasController : Controller

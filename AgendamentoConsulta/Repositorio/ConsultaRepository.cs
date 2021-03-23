@@ -1,14 +1,14 @@
-﻿using AlbertEinsteinTeste.Data;
-using AlbertEinsteinTeste.Models;
-using AlbertEinsteinTeste.Models.Enums;
-using AlbertEinsteinTeste.Repositorio.Interfaces;
+﻿using AgendamentoConsulta.Data;
+using AgendamentoConsulta.Models;
+using AgendamentoConsulta.Models.Enums;
+using AgendamentoConsulta.Repositorio.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AlbertEinsteinTeste.Repositorio
+namespace AgendamentoConsulta.Repositorio
 {
     public class ConsultaRepository : IConsultaRepository
     {

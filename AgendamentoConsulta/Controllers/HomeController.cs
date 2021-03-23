@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using AlbertEinsteinTeste.Models;
+using AgendamentoConsulta.Models;
 
-namespace AlbertEinsteinTeste.Controllers
+namespace AgendamentoConsulta.Controllers
 {
     public class HomeController : Controller
     {
