@@ -18,6 +18,7 @@ using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using AgendamentoConsulta.Services.Interfaces;
 using AgendamentoConsulta.Repositorio.Interfaces;
 using AgendamentoConsulta.Repositorio;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace AgendamentoConsulta
 {
@@ -40,7 +41,6 @@ namespace AgendamentoConsulta
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddDbContext<AlbertEinsteinTesteContext>(options =>
@@ -49,6 +49,13 @@ namespace AgendamentoConsulta
             //services.AddDbContext<AlbertEinsteinTesteContext>(options =>
             //         options.UseMySql(Configuration.GetConnectionString("AlbertEinsteinTesteContext")
             //         , mySqlOptionsAction => mySqlOptionsAction.ServerVersion(new Version(), ServerType.MySql)));
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie(config => 
+                    {
+                        config.LoginPath = "Home/Index";
+                        config.AccessDeniedPath = "Home/Error";
+                    });
 
             //Serviços
             services.AddScoped<SeedingService>();
@@ -88,7 +95,11 @@ namespace AgendamentoConsulta
             }
 
             //app.UseHttpsRedirection();
+
+            app.UseAuthentication();
+
             app.UseStaticFiles();
+
             app.UseCookiePolicy();
 
             app.UseMvc(routes =>
