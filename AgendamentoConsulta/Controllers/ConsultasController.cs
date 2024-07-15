@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AgendamentoConsulta.Controllers
 {
-    [ValidateAntiForgeryToken]
+    //[ValidateAntiForgeryToken]
     public class ConsultasController : Controller
     {
         private readonly IConsultaService _consultaService;
@@ -132,6 +132,8 @@ namespace AgendamentoConsulta.Controllers
             }
         }
 
+        [HttpGet]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AgendarConsulta()
         {
             try

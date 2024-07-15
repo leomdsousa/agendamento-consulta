@@ -1,20 +1,14 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using AgendamentoConsulta.Data;
 using AgendamentoConsulta.Services;
-using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using AgendamentoConsulta.Services.Interfaces;
 using AgendamentoConsulta.Repositorio.Interfaces;
 using AgendamentoConsulta.Repositorio;
@@ -34,6 +28,11 @@ namespace AgendamentoConsulta
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc(options =>
+            {
+                options.EnableEndpointRouting = false;
+            });
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -41,20 +40,14 @@ namespace AgendamentoConsulta
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
             services.AddDbContext<AlbertEinsteinTesteContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("AlbertEinsteinTesteContext")));
-
-            //services.AddDbContext<AlbertEinsteinTesteContext>(options =>
-            //         options.UseMySql(Configuration.GetConnectionString("AlbertEinsteinTesteContext")
-            //         , mySqlOptionsAction => mySqlOptionsAction.ServerVersion(new Version(), ServerType.MySql)));
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie(config => 
                     {
-                        config.LoginPath = "Home/Index";
-                        config.AccessDeniedPath = "Home/Error";
+                        config.LoginPath = "/Home/Index";
+                        config.AccessDeniedPath = "/Home/Error";
                     });
 
             //Serviços
@@ -102,11 +95,13 @@ namespace AgendamentoConsulta
 
             app.UseCookiePolicy();
 
+            //app.UseAntiforgery();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Login}/{action=Index}");
+                    template: "{controller=Home}/{action=Index}");
             });
         }
     }

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AgendamentoConsulta.Controllers
 {
-    [ValidateAntiForgeryToken]
+    //[ValidateAntiForgeryToken]
     public class MedicosController : Controller
     {
         private readonly IMedicoService _medicoService; 
