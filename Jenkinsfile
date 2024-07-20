@@ -1,10 +1,10 @@
 pipeline {
 	agent any
 
-	environment {
+	//environment {
 	    //DOTNET_ROOT = tool name: 'dotnet', type: 'com.microsoft.jenkins.plugins.dotnet.DotNetSDK'
         //PATH = "${env.PATH}:${env.DOTNET_ROOT}"
-	}
+	//}
 
 	stages {
 		stage('Checkout') {
