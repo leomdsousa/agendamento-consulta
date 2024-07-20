@@ -15,13 +15,13 @@ pipeline {
 
 		stage('Restore') {
             steps {
-                sh 'dotnet restore'
+                bat 'dotnet restore'
             }
         }
 
 		stage('Build') {
             steps {
-                sh 'dotnet build --configuration Release'
+                bat 'dotnet build --configuration Release'
             }
         }
 	}
