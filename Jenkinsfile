@@ -1,11 +1,6 @@
 pipeline {
 	agent any
 
-	//environment {
-	    //DOTNET_ROOT = tool name: 'dotnet', type: 'com.microsoft.jenkins.plugins.dotnet.DotNetSDK'
-        //PATH = "${env.PATH}:${env.DOTNET_ROOT}"
-	//}
-
 	stages {
 		stage('Checkout') {
 		    steps {
@@ -24,6 +19,26 @@ pipeline {
                 bat 'dotnet build --configuration Release'
             }
         }
-	}
 
+        stage('Deploy') {
+            steps {
+                script {
+                    def websiteName = 'AgendamentoConsulta'
+                    def deployPath = '%WORKSPACE%\\output'
+
+                    // Parar o site no IIS
+                    bat "iisreset /stop"
+
+                    // Remover arquivos antigos
+                    bat "powershell Remove-Item -Recurse -Force 'C:\\inetpub\\AgendamentoConsulta\\*'"
+
+                    // Copiar novos arquivos
+                    bat "powershell Copy-Item -Recurse -Force '${deployPath}\\*' 'C:\\inetpub\\AgendamentoConsulta'"
+
+                    // Iniciar o site no IIS
+                    bat "iisreset /start"
+                }
+            }
+        }
+	}
 }
