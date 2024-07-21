@@ -16,7 +16,7 @@ pipeline {
 
 		stage('Build') {
             steps {
-                bat 'dotnet build --configuration Release --output %WORKSPACE%\\output'
+                bat 'dotnet build --configuration Release --output "%WORKSPACE%\\output"'
             }
         }
 
@@ -30,10 +30,10 @@ pipeline {
                     bat "iisreset /stop"
 
                     // Remover arquivos antigos
-                    bat "powershell Remove-Item -Recurse -Force 'C:\\inetpub\\AgendamentoConsulta\\*'"
+                    bat "powershell Remove-Item -Recurse -Force 'C:\\inetpub\\${websiteName}\\*'"
 
                     // Copiar novos arquivos
-                    bat "powershell Copy-Item -Recurse -Force '${deployPath}\\*' 'C:\\inetpub\\AgendamentoConsulta'"
+                    bat "powershell Copy-Item -Recurse -Force '${deployPath}\\*' 'C:\\inetpub\\${websiteName}'"
 
                     // Iniciar o site no IIS
                     bat "iisreset /start"
