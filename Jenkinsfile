@@ -14,9 +14,9 @@ pipeline {
             }
         }
 
-		stage('Build') {
+		stage('Build and Publish') {
             steps {
-                bat 'dotnet build --configuration Release --output "%WORKSPACE%\\output"'
+                bat 'dotnet publish --configuration Release --output "%WORKSPACE%\\output"'
             }
         }
 
