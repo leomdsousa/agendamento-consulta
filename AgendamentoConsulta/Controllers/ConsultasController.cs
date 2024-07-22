@@ -191,7 +191,7 @@ namespace AgendamentoConsulta.Controllers
             }
         }
 
-        [HttpDelete("/Delete/{id?}")]
+        [HttpDelete("Delete/{id?}")]
         public async Task<IActionResult> Delete(int? id)
         {
             try
@@ -229,7 +229,7 @@ namespace AgendamentoConsulta.Controllers
             }
         }
 
-        [HttpGet("/Edit/{id?}")]
+        [HttpGet("Edit/{id?}")]
         public async Task<IActionResult> Edit(int? id)
         {
             try

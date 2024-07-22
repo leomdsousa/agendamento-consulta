@@ -19,6 +19,7 @@ namespace AgendamentoConsulta.Controllers
             _pacienteService = pacienteService;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             try
@@ -32,7 +33,7 @@ namespace AgendamentoConsulta.Controllers
             }
         }
 
-        [HttpGet("/Delete/{id?}")]
+        [HttpGet("Delete/{id?}")]
         public async Task<IActionResult> Delete(int? id)
         {
             try
@@ -56,7 +57,7 @@ namespace AgendamentoConsulta.Controllers
             }
         }
 
-        [HttpDelete("/{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             try
@@ -95,7 +96,7 @@ namespace AgendamentoConsulta.Controllers
             }
         }
 
-        [HttpGet("/Edit/{id?}")]
+        [HttpGet("Edit/{id?}")]
         public async Task<IActionResult> Edit(int? id)
         {
             try
