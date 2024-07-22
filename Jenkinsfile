@@ -4,7 +4,11 @@ pipeline {
 	stages {
 		stage('Checkout') {
 		    steps {
-                git 'https://github.com/leomdsousa/agendamento-consulta.git'
+                // Certifique-se de que a workspace está limpa antes de clonar o repositório
+                cleanWs()
+
+                // Checkout do repositório especificando o branch
+                git branch: 'master', url: 'https://github.com/leomdsousa/agendamento-consulta.git'
             }
 		}
 
