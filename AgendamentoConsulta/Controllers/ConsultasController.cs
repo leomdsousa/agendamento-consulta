@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AgendamentoConsulta.Controllers
 {
-    //[ValidateAntiForgeryToken]
+    [Route("/Consultas")]
     public class ConsultasController : Controller
     {
         private readonly IConsultaService _consultaService;
@@ -29,6 +29,7 @@ namespace AgendamentoConsulta.Controllers
             _pacienteService = pacienteService;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             try
@@ -42,6 +43,7 @@ namespace AgendamentoConsulta.Controllers
             }
         }
 
+        [HttpGet("IndexPaciente")]
         public async Task<IActionResult> IndexPaciente()
         {
             try
@@ -55,6 +57,7 @@ namespace AgendamentoConsulta.Controllers
             }
         }
 
+        [HttpGet("ConsultasPorMedico")]
         public async Task<IActionResult> ConsultasPorMedico(string nomeMedico)
         {
             try
@@ -71,6 +74,7 @@ namespace AgendamentoConsulta.Controllers
             }
         }
 
+        [HttpGet("ConsultasPorPaciente")]
         public async Task<IActionResult> ConsultasPorPaciente(string nomePaciente)
         {
             try
@@ -87,6 +91,7 @@ namespace AgendamentoConsulta.Controllers
             }
         }
 
+        [HttpGet("Create")]
         public async Task<IActionResult> Create()
         {
             try
@@ -132,7 +137,7 @@ namespace AgendamentoConsulta.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("AgendarConsulta")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AgendarConsulta()
         {
@@ -186,6 +191,7 @@ namespace AgendamentoConsulta.Controllers
             }
         }
 
+        [HttpDelete("/Delete/{id?}")]
         public async Task<IActionResult> Delete(int? id)
         {
             try
@@ -209,7 +215,7 @@ namespace AgendamentoConsulta.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             try
@@ -223,6 +229,7 @@ namespace AgendamentoConsulta.Controllers
             }
         }
 
+        [HttpGet("/Edit/{id?}")]
         public async Task<IActionResult> Edit(int? id)
         {
             try
@@ -258,6 +265,7 @@ namespace AgendamentoConsulta.Controllers
             }
         }
 
+        [HttpGet("ConsultasPendentes")]
         public async Task<IActionResult> ConsultasPendentes()
         {
             try
@@ -271,6 +279,7 @@ namespace AgendamentoConsulta.Controllers
             }
         }
 
+        [HttpGet("ConsultasPendentes/{id?}")]
         public async Task<IActionResult> ConfirmarAgendamento(int? id)
         {
             try

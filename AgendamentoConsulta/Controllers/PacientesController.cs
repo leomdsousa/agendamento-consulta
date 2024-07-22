@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AgendamentoConsulta.Controllers
 {
-    //[ValidateAntiForgeryToken]
+    [Route("/Pacientes")]
     public class PacientesController : Controller
     {
         private readonly IPacienteService _pacienteService;
@@ -32,6 +32,7 @@ namespace AgendamentoConsulta.Controllers
             }
         }
 
+        [HttpGet("/Delete/{id?}")]
         public async Task<IActionResult> Delete(int? id)
         {
             try
@@ -55,7 +56,7 @@ namespace AgendamentoConsulta.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             try
@@ -69,6 +70,7 @@ namespace AgendamentoConsulta.Controllers
             }
         }
 
+        [HttpGet("Create")]
         public IActionResult Create()
         {
             return View();
@@ -93,6 +95,7 @@ namespace AgendamentoConsulta.Controllers
             }
         }
 
+        [HttpGet("/Edit/{id?}")]
         public async Task<IActionResult> Edit(int? id)
         {
             try
